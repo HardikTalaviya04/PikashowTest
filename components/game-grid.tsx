@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { Game } from "@/lib/types"
 import { GameCard } from "./game-card"
+import HorizontalAd from "./AdsComponents/HorizontalAd"
 
 interface GameGridProps {
   category: string
@@ -76,6 +77,7 @@ export function GameGrid({ category }: GameGridProps) {
   return (
     <>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+
         {games.map((game) => (
           <GameCard key={`${game.name}`} game={game} />
         ))}
@@ -106,6 +108,7 @@ export function GameGrid({ category }: GameGridProps) {
         )}
         {!hasMore && games.length > 0 && <p className="text-slate-500 text-sm">No more games to load</p>}
       </div>
+      {/* <HorizontalAd /> */}
     </>
   )
 }

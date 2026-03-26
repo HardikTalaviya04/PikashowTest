@@ -8,6 +8,7 @@ import { CategoryFilter } from "@/components/category-filter"
 import { GameGrid } from "@/components/game-grid"
 import { Footer } from "@/components/footer"
 import { useSearchParams } from "next/navigation"
+import HorizontalAd from "@/components/AdsComponents/HorizontalAd"
 
 export const dynamic = "force-dynamic"
 
@@ -23,6 +24,7 @@ function HomeInner() {
   return (
     <>
       <CategoryFilter selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} />
+      {/* <HorizontalAd /> */}
       <main className="max-w-7xl mx-auto px-4 py-12 flex-1 w-full">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">

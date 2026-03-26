@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer"
 import type { Category } from "@/lib/types"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import HorizontalAd from "@/components/AdsComponents/HorizontalAd"
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
@@ -39,6 +40,7 @@ export default function CategoriesPage() {
           <h1 className="text-4xl font-bold text-white mb-2">Browse Categories</h1>
           <p className="text-slate-400">Explore games by category and find your favorite genre</p>
         </div>
+        {/* <HorizontalAd /> */}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -51,12 +53,12 @@ export default function CategoriesPage() {
             {categories.map((category) => (
               <Link key={category._id} href={`/?category=${category.slug}`}>
                 <div className="group p-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg border border-purple-500/20 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20 cursor-pointer">
-                <img
-  src={`https://images.atmegame.com/cat/${category.slug}.png`}
-  alt={category.name}
-  className="w-10 h-10 object-contain"
-/> <div className="flex items-center justify-between mb-4">
-                    
+                  <img
+                    src={`https://images.atmegame.com/cat/${category.slug}.png`}
+                    alt={category.name}
+                    className="w-10 h-10 object-contain"
+                  /> <div className="flex items-center justify-between mb-4">
+
                     <h3 className="text-xl font-bold text-white capitalize">{category.name}</h3>
                     <ArrowRight className="w-5 h-5 text-purple-400 group-hover:translate-x-2 transition-transform" />
                   </div>
@@ -64,7 +66,10 @@ export default function CategoriesPage() {
                 </div>
               </Link>
             ))}
+            {/* <HorizontalAd /> */}
+
           </div>
+
         )}
       </main>
 

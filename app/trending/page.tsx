@@ -7,6 +7,7 @@ import { GameCard } from "@/components/game-card"
 import { Footer } from "@/components/footer"
 import type { Game } from "@/lib/types"
 import { TrendingUp, Flame } from "lucide-react"
+import HorizontalAd from "@/components/AdsComponents/HorizontalAd"
 
 export default function TrendingPage() {
   const [games, setGames] = useState<Game[]>([])
@@ -46,6 +47,7 @@ export default function TrendingPage() {
             <p className="text-slate-400">Most played and loved games right now</p>
           </div>
         </div>
+        {/* <HorizontalAd /> */}
 
         {isLoading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -66,6 +68,7 @@ export default function TrendingPage() {
           </div>
         )}
       </main>
+      {/* <HorizontalAd /> */}
 
       <Footer />
     </div>

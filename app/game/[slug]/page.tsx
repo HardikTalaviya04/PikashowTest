@@ -14,6 +14,7 @@ import { db } from "@/lib/firebase"
 import { doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore"
 import { Button } from "@/components/ui/button"
 import { Share2, Heart, BookOpen } from "lucide-react"
+import HorizontalAd from "@/components/AdsComponents/HorizontalAd"
 
 export default function GamePage() {
   const params = useParams()
@@ -137,6 +138,8 @@ export default function GamePage() {
 
       <main className="max-w-7xl mx-auto px-4 py-12 flex-1">
         {/* Game Header */}
+        {/* <HorizontalAd /> */}
+
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{game.name}</h1>
           <div className="flex flex-wrap items-center gap-4">
@@ -211,6 +214,7 @@ export default function GamePage() {
             </div>
           )}
         </div>
+        {/* <HorizontalAd /> */}
 
         {/* Related Games */}
         {relatedGames.length > 0 && (
