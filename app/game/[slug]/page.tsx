@@ -28,14 +28,16 @@ export default function GamePage() {
   const [mTitle, setMTitle] = useState('')
   const [mDesc, setMDesc] = useState('')
 
-  const slug = params?.slug as string
+  const id = Array.isArray(params?.slug)
+    ? params.slug[0]
+    : params?.slug
 
   useEffect(() => {
-    if (!slug) return
+    if (!id) return
 
     async function fetchGame() {
       try {
-        const res = await fetch(`/api/games/${slug}`)
+        const res = await fetch(`/api/games/${id}`)
         const data = await res.json()
 
         const mdesc = data.metaDesc?.replaceAll("atmegame.com", "pikashowgames.com");
@@ -49,7 +51,7 @@ export default function GamePage() {
         if (user) {
           await updateDoc(doc(db, "users", user.uid), {
             recentlyPlayed: arrayUnion({
-              gameSlug: slug,
+              gameSlug: data.slug,
               gameName: data.name,
               playedAt: Timestamp.now(),
               timeSpent: 0,
@@ -60,7 +62,7 @@ export default function GamePage() {
         // Fetch related games
         const relatedRes = await fetch(`/api/games?limit=10&page=0`)
         const relatedData = await relatedRes.json()
-        setRelatedGames(relatedData.games.filter((g: any) => g.slug !== slug).slice(0, 5))
+        setRelatedGames(relatedData.games.filter((g: any) => g.id !== Number(id)).slice(0, 5))
       } catch (error) {
         console.error("[v0] Failed to fetch game:", error)
       } finally {
@@ -69,7 +71,7 @@ export default function GamePage() {
     }
 
     fetchGame()
-  }, [slug, user])
+  }, [id, user])
 
   const handleAddToFavorites = async () => {
     if (!user) {
@@ -79,7 +81,7 @@ export default function GamePage() {
 
     try {
       await updateDoc(doc(db, "users", user.uid), {
-        favoriteGames: arrayUnion(slug),
+        favoriteGames: arrayUnion(game?.slug),
       })
       setIsFavorited(!isFavorited)
     } catch (error) {
@@ -114,6 +116,10 @@ export default function GamePage() {
     )
   }
 
+  const imageUrl = game?.image
+    ? `https://www.atmhtml5games.com${game.image}`
+    : ""
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col">
       <Header />
@@ -130,7 +136,7 @@ export default function GamePage() {
           property="og:description"
           content={mDesc}
         />
-        {game?.image && <meta property="og:image" content={game.image} />}
+        {imageUrl && <meta property="og:image" content={imageUrl} />}
         <meta property="og:type" content="website" />
         <meta property="og:keyword" content={game.metaKeyword || "PikaShowGames, free online games, play games online, browser games, HTML5 games, no download games"} />
       </Head>
@@ -193,14 +199,10 @@ export default function GamePage() {
             {game.description ||
               `Experience ${game.name}, an exciting game with ${game.totalPlayed.toLocaleString()} total plays and a ${game.manualRating}/5 rating. With ${game.likes.toLocaleString()} likes, this game is loved by players worldwide.`}
           </p> */}
-          <div
-            className="text-slate-300 leading-relaxed mb-4"
-            dangerouslySetInnerHTML={{
-              __html:
-                game.description ||
-                `Experience ${game.name}, an exciting game with ${game.totalPlayed.toLocaleString()} total plays and a ${game.manualRating}/5 rating. With ${game.likes.toLocaleString()} likes, this game is loved by players worldwide.`,
-            }}
-          />
+          <p className="text-slate-300 leading-relaxed mb-4">
+            {game.description ||
+              `Experience ${game.name}, played by ${game.totalPlayed.toLocaleString()} users.`}
+          </p>
           {game.category && (
             <div className="flex items-center gap-4 text-sm text-slate-400">
               <span>

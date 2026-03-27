@@ -12,13 +12,15 @@ interface GameCardProps {
 export function GameCard({ game }: GameCardProps) {
   const [isFavorited, setIsFavorited] = useState(false)
 
-  const imageUrl = `https://slides.atmegame.com/slide/${game.image}_slide.jpg`
+  const imageUrl = game.image
+    ? `https://www.atmhtml5games.com${game.image}`
+    : "/placeholder.svg"
 
   return (
-    <Link href={`/game/${game.slug}`}>
+    <Link href={`/game/${game.id}`}>
       <div className="group relative bg-slate-800 rounded-lg overflow-hidden cursor-pointer transition-all hover:shadow-2xl hover:shadow-purple-500/50">
         {/* Game Image */}
-        <div className="relative w-full aspect-video bg-slate-700 overflow-hidden">
+        <div className="relative w-full aspect-sq bg-slate-700 overflow-hidden">
           <img
             src={imageUrl || "/placeholder.svg"}
             alt={game.name}
