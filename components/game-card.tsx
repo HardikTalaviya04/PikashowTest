@@ -3,13 +3,14 @@
 import type { Game } from "@/lib/types"
 import Link from "next/link"
 import { Heart } from "lucide-react"
-import { useState } from "react"
+import { useState, memo } from "react"
 
 interface GameCardProps {
   game: Game
 }
 
-export function GameCard({ game }: GameCardProps) {
+// ⚡ Bolt: Wrap with React.memo to prevent unnecessary re-renders of older items when adding to infinite scroll
+export const GameCard = memo(function GameCard({ game }: GameCardProps) {
   const [isFavorited, setIsFavorited] = useState(false)
 
   const imageUrl = game.image
@@ -24,6 +25,7 @@ export function GameCard({ game }: GameCardProps) {
           <img
             src={imageUrl || "/placeholder.svg"}
             alt={game.name}
+            loading="lazy" // ⚡ Bolt: Lazy load offscreen images for better initial render performance and memory usage
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
             onError={(e) => {
               e.currentTarget.src = "/game-thumbnail.jpg"
@@ -61,4 +63,4 @@ export function GameCard({ game }: GameCardProps) {
       </div>
     </Link>
   )
-}
+})
