@@ -23,7 +23,12 @@ export function MobileMenu() {
   return (
     <>
       {/* Hamburger Button */}
-      <button className="md:hidden flex items-center justify-center" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="md:hidden flex items-center justify-center"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isOpen}
+      >
         {isOpen ? <X className="w-6 h-6 text-white" /> : <Menu className="w-6 h-6 text-white" />}
       </button>
 
