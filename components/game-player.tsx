@@ -74,7 +74,6 @@ export function GamePlayer({ gameName, gameSlug, gameUrl, gameImage }: GamePlaye
           <div className="absolute inset-0 bg-black/40" />
           <button
             onClick={() => {
-              console.log("[v0] Play button clicked, loading iframe with URL:", gameEmbedUrl)
               setIsPlaying(true)
             }}
             className="absolute flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-full transition-all transform hover:scale-105"
@@ -94,8 +93,6 @@ export function GamePlayer({ gameName, gameSlug, gameUrl, gameImage }: GamePlaye
             className="w-full h-full border-0"
             allow="autoplay; fullscreen; camera; microphone; accelerometer; gyroscope"
             sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-pointer-lock allow-top-navigation"
-            onLoad={() => console.log("[v0] Game iframe loaded successfully:", gameEmbedUrl)}
-            onError={() => console.error("[v0] Game iframe failed to load:", gameEmbedUrl)}
           />
 
           <div className="absolute top-4 right-4 flex gap-2 z-10">
