@@ -34,7 +34,7 @@ export function CategoryFilter({ onCategoryChange, selectedCategory }: CategoryF
         const data = await res.json()
         setCategories(data.slice(0, 8))
       } catch (error) {
-        console.log("[v0] Failed to fetch categories:", error)
+        // Ignore error
       } finally {
         setIsLoading(false)
       }
