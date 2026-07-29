@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import Head from "next/head"
 import { Header } from "@/components/header"
 import { GameStats } from "@/components/game-stats"
 import { GamePlayer } from "@/components/game-player"
@@ -25,8 +24,6 @@ export default function GamePage() {
   const [isFavorited, setIsFavorited] = useState(false)
   const [relatedGames, setRelatedGames] = useState<any[]>([])
   const [showInstructions, setShowInstructions] = useState(false)
-  const [mTitle, setMTitle] = useState('')
-  const [mDesc, setMDesc] = useState('')
 
   const id = Array.isArray(params?.slug)
     ? params.slug[0]
@@ -39,11 +36,6 @@ export default function GamePage() {
       try {
         const res = await fetch(`/api/games/${id}`)
         const data = await res.json()
-
-        const mdesc = data.metaDesc?.replaceAll("atmegame.com", "pikashowgames.com");
-        const mtitle = data.metaTitle?.replaceAll("Atmegame.com", "pikashowgames.com");
-        setMTitle(mtitle);
-        setMDesc(mdesc);
 
         setGame(data)
 
@@ -123,24 +115,6 @@ export default function GamePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col">
       <Header />
-
-      <Head>
-        <title>{game ? `${game.name} | PikaShow Games` : "PikaShow Games"}</title>
-        <meta
-          name="description"
-          content={mDesc}
-        />
-        <meta name="keyword" content={game.metaKeyword} />
-        <meta property="og:title" content={mTitle} />
-        <meta
-          property="og:description"
-          content={mDesc}
-        />
-        {imageUrl && <meta property="og:image" content={imageUrl} />}
-        <meta property="og:type" content="website" />
-        <meta property="og:keyword" content={game.metaKeyword || "PikaShowGames, free online games, play games online, browser games, HTML5 games, no download games"} />
-      </Head>
-
 
       <main className="max-w-7xl mx-auto px-4 py-12 flex-1">
         {/* Game Header */}
