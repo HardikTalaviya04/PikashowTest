@@ -1,6 +1,7 @@
 import { POST } from './route';
 import { NextRequest } from 'next/server';
 import { describe, it, expect, vi } from 'vitest';
+import { adminAuth } from '@/lib/firebase-admin';
 
 vi.mock('firebase/firestore', () => ({
   doc: vi.fn(),
@@ -13,11 +14,20 @@ vi.mock('@/lib/firebase', () => ({
   db: {},
 }));
 
+vi.mock('@/lib/firebase-admin', () => ({
+  adminAuth: {
+    verifyIdToken: vi.fn(),
+  },
+}));
+
 describe('POST /api/user/[uid]/coins', () => {
   it('should return 400 if amount or reason is missing', async () => {
+    (adminAuth.verifyIdToken as any).mockResolvedValue({ uid: 'test-user' });
+
     // Missing reason
     const req = new NextRequest('http://localhost/api/user/test-user/coins', {
       method: 'POST',
+      headers: { Authorization: 'Bearer valid_token' },
       body: JSON.stringify({ amount: 10 }),
     });
     let response = await POST(req, { params: Promise.resolve({ uid: 'test-user' }) } as any);
@@ -28,6 +38,7 @@ describe('POST /api/user/[uid]/coins', () => {
     // Missing amount
     const req2 = new NextRequest('http://localhost/api/user/test-user/coins', {
       method: 'POST',
+      headers: { Authorization: 'Bearer valid_token' },
       body: JSON.stringify({ reason: 'test' }),
     });
     response = await POST(req2, { params: Promise.resolve({ uid: 'test-user' }) } as any);
@@ -38,6 +49,7 @@ describe('POST /api/user/[uid]/coins', () => {
     // Both missing
     const req3 = new NextRequest('http://localhost/api/user/test-user/coins', {
       method: 'POST',
+      headers: { Authorization: 'Bearer valid_token' },
       body: JSON.stringify({}),
     });
     response = await POST(req3, { params: Promise.resolve({ uid: 'test-user' }) } as any);

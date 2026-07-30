@@ -16,13 +16,17 @@ export function RecentlyPlayed({ games }: RecentlyPlayedProps) {
   useEffect(() => {
     async function fetchGameDetails() {
       try {
-        const res = await fetch("/api/games?limit=100&page=0")
+        const gameSlugs = Array.from(new Set(games.map(g => g.gameSlug)))
+        const idsString = gameSlugs.join(",")
+        const res = await fetch(`/api/games?ids=${idsString}`)
         const data = await res.json()
 
         const gameMap = new Map<string, Game>()
-        data.games.forEach((game: Game) => {
-          gameMap.set(game.slug, game)
-        })
+        if (data.games) {
+          data.games.forEach((game: Game) => {
+            gameMap.set(game.slug, game)
+          })
+        }
 
         const details = games.map((rp) => gameMap.get(rp.gameSlug)).filter(Boolean) as Game[]
 
@@ -53,8 +57,8 @@ export function RecentlyPlayed({ games }: RecentlyPlayedProps) {
         Recently Played
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {gameDetails.slice(0, 10).map((game) => (
-          <GameCard key={game.slug} game={game} />
+        {gameDetails.slice(0, 10).map((game, index) => (
+          <GameCard key={`${game.slug}-${index}`} game={game} />
         ))}
       </div>
     </div>
