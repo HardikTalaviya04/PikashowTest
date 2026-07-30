@@ -16,6 +16,7 @@ export function RecentlyPlayed({ games }: RecentlyPlayedProps) {
   useEffect(() => {
     async function fetchGameDetails() {
       try {
+        // Optimized: Fetching specific IDs prevents large network payloads
         const gameSlugs = Array.from(new Set(games.map(g => g.gameSlug)))
         const idsString = gameSlugs.join(",")
         const res = await fetch(`/api/games?ids=${idsString}`)
