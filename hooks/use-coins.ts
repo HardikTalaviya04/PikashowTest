@@ -9,9 +9,13 @@ export function useCoins() {
     if (!user) return false
 
     try {
+      const idToken = await user.getIdToken()
       const res = await fetch(`/api/user/${user.uid}/coins`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
         body: JSON.stringify({ amount, reason }),
       })
 
@@ -27,9 +31,13 @@ export function useCoins() {
     if (!user) return false
 
     try {
+      const idToken = await user.getIdToken()
       const res = await fetch(`/api/user/${user.uid}/stats`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
         body: JSON.stringify({ gamesPlayed, timeSpent }),
       })
 

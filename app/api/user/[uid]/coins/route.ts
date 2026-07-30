@@ -1,10 +1,17 @@
 import { db } from "@/lib/firebase"
+import { verifyAuth } from "@/lib/firebase-admin"
 import { doc, updateDoc, increment, getDoc } from "firebase/firestore"
 import { type NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest, { params }: { params: { uid: string } }) {
   try {
     const uid = (await params).uid
+
+    const isAuthorized = await verifyAuth(request, uid)
+    if (!isAuthorized) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { amount, reason } = await request.json()
 
     if (!amount || !reason) {
