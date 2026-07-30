@@ -15,13 +15,16 @@ export function FavoriteGames({ favoriteIds }: FavoriteGamesProps) {
   useEffect(() => {
     async function fetchFavoriteGames() {
       try {
-        const res = await fetch("/api/games?limit=100&page=0")
+        const idsString = favoriteIds.join(",")
+        const res = await fetch(`/api/games?ids=${idsString}`)
         const data = await res.json()
 
         const gameMap = new Map<string, Game>()
-        data.games.forEach((game: Game) => {
-          gameMap.set(game.slug, game)
-        })
+        if (data.games) {
+          data.games.forEach((game: Game) => {
+            gameMap.set(game.slug, game)
+          })
+        }
 
         const favorites = favoriteIds.map((slug) => gameMap.get(slug)).filter(Boolean) as Game[]
 
