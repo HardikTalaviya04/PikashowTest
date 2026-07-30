@@ -38,9 +38,12 @@ export const GameCard = memo(function GameCard({ game }: GameCardProps) {
               e.preventDefault()
               setIsFavorited(!isFavorited)
             }}
-            className="absolute top-2 right-2 z-10 bg-slate-900/70 p-2 rounded-full hover:bg-slate-800 transition-colors"
+            aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+            title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+            className="absolute top-2 right-2 z-10 bg-slate-900/70 p-2 rounded-full hover:bg-slate-800 transition-colors focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none"
           >
             <Heart
+              aria-hidden="true"
               className={`w-5 h-5 transition-colors ${isFavorited ? "fill-pink-500 text-pink-500" : "text-slate-400"}`}
             />
           </button>
