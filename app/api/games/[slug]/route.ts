@@ -9,7 +9,7 @@ export async function GET(
     const id = slug // slug is actually id now
 
     const res = await fetch(`${GAME_DETAILS_API}?id=${id}`, {
-      next: { revalidate: 3600 },
+      cache: "force-cache",
     })
 
     const data = await res.json()

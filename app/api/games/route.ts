@@ -59,7 +59,7 @@ export async function GET(request: Request) {
     const res = await fetch(
       `${GAMES_API}?page=${page + 1}`,
       {
-        cache: "no-store",
+        next: { revalidate: 3600 },
       }
     )
 

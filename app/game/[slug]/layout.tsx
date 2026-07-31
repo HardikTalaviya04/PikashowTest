@@ -15,7 +15,7 @@ export async function generateMetadata(
 
   try {
     const res = await fetch(`${GAME_DETAILS_API}?id=${id}`, {
-      cache: "no-store",
+      next: { revalidate: 3600 },
     })
 
     const data = await res.json()
