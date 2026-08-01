@@ -8,3 +8,8 @@
 **Learning:** Changing `cache: "no-store"` to `next: { revalidate: 3600 }` enables ISR/caching in Next.js App Router for external fetch requests that rarely change. This leads to a massive improvement on TTFB for static details.
 
 **Action:** Look for `no-store` in API routes or metadata generation where the data isn't highly dynamic and replace it with a suitable revalidation interval.
+## 2026-07-31 - Enable default caching for static endpoints
+
+**Learning:** Changing `cache: "no-store"` or explicit ISR intervals to `cache: "force-cache"` for highly static data endpoints enables default, aggressive caching. This ensures maximum server-side performance improvements for endpoints like game details that rarely, if ever, change.
+
+**Action:** Identify endpoints pulling static external content where `no-store` is inappropriately used. Replace it with `cache: "force-cache"` to fully leverage Next.js default static caching mechanisms.
