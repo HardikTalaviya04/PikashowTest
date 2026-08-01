@@ -65,6 +65,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        {/* Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3990057144186847"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body className={`font-sans antialiased`}>
 
         {/* 🔒 AdBlock Detection ADDED */}
@@ -110,15 +119,6 @@ export default function RootLayout({
     setInterval(detectDevTools, 1000);
   `}
         </Script> */}
-
-        {/* Google AdSense */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3990057144186847"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-
 
       </body>
     </html>
